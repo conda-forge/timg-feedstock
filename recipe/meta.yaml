@@ -21,6 +21,7 @@ requirements:
     - pip
     - pillow
     - python {{ python_min }}
+    - setuptools
   run:
     - pillow
     - python >={{ python_min }}
