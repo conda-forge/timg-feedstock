@@ -1,0 +1,54 @@
+schema_version: 1
+
+context:
+  name: timg
+  version: "1.1.6"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/timg-${{ version }}.tar.gz
+  sha256: 938d939ac3502300f7b9e3daadf5da0f88c5b86fde5882d73b43a9d028bd4bfd
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+  python:
+    entry_points:
+      - timg = timg.__main__:main
+
+requirements:
+  host:
+    - pip
+    - pillow
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - pillow
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - timg
+      pip_check: true
+      python_version: ${{ python_min }}
+  - requirements:
+      run:
+        - pip
+        - python ${{ python_min }}.*
+    script:
+      - timg --help
+
+about:
+  summary: print an image in terminal
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/adzierzanowski/timg
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
